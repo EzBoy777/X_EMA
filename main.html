@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Per rendere la pagina responsive sugli smartphone, inclusi iPhone -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>EMA TI AMO!</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
+    /* Impostazioni base del body, con flexbox per centrare i contenuti */
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;            
+      flex-direction: column;   
+      justify-content: center;  
+      align-items: center;      
+      min-height: 100vh;
+      position: relative; /* serve per ancorare il posizionamento assoluto del bottone NO */
+
+      /* Sfondo gradiente rosa chiaro */
+      background: linear-gradient(to bottom, #ffe6ec 0%, #ffd3e1 100%);
+    }
+
+    /* Contenitore dei bottoni in riga (prima che NO “scappi”) */
+    .buttons-container {
+      display: flex;        
+      flex-direction: row;  
+      gap: 10px;            
+      margin-top: 20px;
+    }
+
+    /* Bottoni generici */
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 4px;  /* angoli arrotondati opzionali */
+      border: none;
+    }
+
+    /* Bottone NO in rosso */
+    #btn {
+      background-color: red;
+      color: #fff; /* testo in bianco */
+    }
+
+    /* Bottone YES (puoi personalizzarlo se vuoi) */
+    .yes-btn {
+      background-color: #fff;
+      color: #000;
+    }
+
+    /* Stile dell'immagine */
+    img {
+      max-width: 300px;
+      height: auto;
+      display: block;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="imgs/richiesta.gif" alt="richiesta chespin :)" id="gif" />
+  
+  <h1 id="label">Vuoi essere la mia Valentine?</h1>
+
+  <!-- Contenitore dedicato ai bottoni -->
+  <div class="buttons-container">
+    <button class="yes-btn" onclick="selectYes()">Yes</button>
+    <button id="btn" onclick="selectNo()">No</button>
+  </div>
+
+  <script>
+    // Contatore click sul bottone NO
+    let count = 0;
+
+    // Funzione per il bottone YES
+    function selectYes() {
+      document.getElementById("label").innerHTML = "YEEEEY";
+      document.getElementById("gif").src = "imgs/love.gif";
+
+      // Riportiamo il bottone NO al suo posto (rimuovendo lo style "absolute")
+      // e azzeriamo il contatore di click
+      count = 0;
+      const btnNo = document.getElementById("btn");
+      btnNo.style.position = '';
+      btnNo.style.left = '';
+      btnNo.style.top = '';
+    }
+
+    // Funzione per il bottone NO
+    function selectNo() {
+      count++;
+
+      // Se il tasto NO è stato cliccato più di 2 volte, cambia posizione
+      if (count > 2) {
+        const btn = document.getElementById("btn");
+
+        // Calcoliamo posizione random per il bottone NO
+        // (lasciando un margine per evitare che esca dallo schermo)
+        const maxX = window.innerWidth - 100; // 100 ~ larghezza bottone
+        const maxY = window.innerHeight - 50; // 50 ~ altezza bottone
+        
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+
+        btn.style.position = 'absolute';
+        btn.style.left = randomX + 'px';
+        btn.style.top = randomY + 'px';
+      }
+
+      // Modifichiamo il testo e l'immagine in base al numero di click
+      const text = ["Sicura Sicura???", "Pensaci meglio per favore", "Davvero???"];
+      const images = ["imgs/sicura.gif", "imgs/cry1.gif", "imgs/cry2.gif"];
+
+      document.getElementById("label").innerHTML = text[count % 3];
+      document.getElementById("gif").src = images[count % 3];
+    }
+  </script>
+</body>
+</html>
